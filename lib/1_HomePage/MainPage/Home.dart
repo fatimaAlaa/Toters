@@ -38,6 +38,10 @@ class _HomepageState extends State<Homepage> {
       listImages.add(list1[i]);
     }
   }
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
