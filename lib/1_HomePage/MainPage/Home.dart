@@ -19,7 +19,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final List<String> listImages = [
+  final List listImages = [
     // "images/discount.jpg",
     // "images/backtoSchool.jpg",
     // "images/orderNow.png",
@@ -35,7 +35,7 @@ class _HomepageState extends State<Homepage> {
     String body = response.body;
     List<dynamic> list1 = json.decode(body);
     for (int i = 0; i < list1.length; i++) {
-      listImages.add(list1[i]);
+      //listImages.add(list1[i]);
     }
   }
   void initState() {
