@@ -1,11 +1,14 @@
+import 'dart:convert';
+
+import 'package:carousel_images/carousel_images.dart';
 import 'package:flutter/material.dart';
 import 'package:banner_carousel/banner_carousel.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:http/http.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:toters/1_HomePage/MainPage/EarnedPoints.dart';
+import 'package:toters/1_HomePage/MainPage/Notification.dart';
+import 'package:toters/1_HomePage/MainPage/StoresFilter.dart';
 import 'package:toters/1_HomePage/ResturantDetailsPage/1_ResturantPage/Details.dart';
-import 'package:toters/2_SearchPage/MainPage/Search.dart';
-import 'package:toters/3_DeliveryPage/Delivery.dart';
-import 'package:toters/4_OrdersPage/order.dart';
-import 'package:toters/5_Profile/ProfileDetails.dart';
 
 //import 'package:circle_bottom_navigation_bar/circle_bottom_navigation_bar.dart';
 //import 'package:circle_bottom_navigation_bar/widgets/tab_data.dart';
@@ -16,14 +19,25 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final List<BannerModel> listBanners = [
-    BannerModel(imagePath: "images/discount.jpg", id: '1'),
-    BannerModel(imagePath: "images/backtoSchool.jpg", id: '2'),
-    BannerModel(imagePath: "images/orderNow.png", id: '3'),
+  final List<String> listImages = [
+    // "images/discount.jpg",
+    // "images/backtoSchool.jpg",
+    // "images/orderNow.png",
   ];
   bool sizeBool = true;
   bool ShowHide = true;
-  int _selectedIndex = 0;
+  int OrdersNumbers = 10;
+  DateTime TodayDate = DateTime.now();
+
+  Future getData() async {
+    var url = Uri.parse("http://localhost:4000/Offers");
+    Response response = await get(url);
+    String body = response.body;
+    List<dynamic> list1 = json.decode(body);
+    for (int i = 0; i < list1.length; i++) {
+      listImages.add(list1[i]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,66 +47,67 @@ class _HomepageState extends State<Homepage> {
           toolbarHeight: 50,
           elevation: 0.5,
           title: InkWell(
-              onTap: () {
-                setState(() {
-                  ShowHide = !ShowHide;
-                });
-              },
-              child: Container(
-                  padding: const EdgeInsets.only(top: 15, bottom: 15),
-                  width: MediaQuery.of(context).size.width,
-                  height: 70,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            onTap: () {
+              setState(() {
+                ShowHide = !ShowHide;
+              });
+            },
+            child: Container(
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
+              width: MediaQuery.of(context).size.width,
+              height: 70,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Delivering To",
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.8),
+                          fontSize: 14,
+                          fontFamily: 'Amiri')),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("Delivering To",
+                      const Text("Home",
                           style: TextStyle(
-                              color: Colors.black.withOpacity(0.8),
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                               fontSize: 14,
                               fontFamily: 'Amiri')),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const Text("Home",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  fontFamily: 'Amiri')),
-                          const Icon(
-                            Icons.arrow_drop_down_outlined,
-                            color: Colors.black,
-                            size: 18,
-                          )
-                          /*DraggableBottomSheet(
-                        minExtent: 100,
-                        useSafeArea: false,
-                        curve: Curves.easeIn,
-                        previewWidget: Container(width: 50,height: 50,color: Colors.red,),
-                        expandedWidget: Container(width: 80,height: 80,color: Colors.black,),
-                        backgroundWidget: Container(width: 100,height: 100,color: Colors.green,),
-                        duration: const Duration(milliseconds: 10),
-                        maxExtent: 200,
-                        onDragging: (pos) {},
-                      ),*/
-                        ],
-                      )
+                      const Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: Colors.black,
+                        size: 18,
+                      ),
                     ],
-                  ))),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(
-                Icons.notifications_none_sharp,
-                color: Colors.grey,
+                  )
+                ],
               ),
             ),
+          ),
+          actions: [
+            Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NotificationPage()));
+                    },
+                    child: Icon(
+                      LineIcons.bell,
+                      color: Colors.grey,
+                    ))),
             Padding(
               padding: EdgeInsets.only(right: 15),
-              child: Icon(
-                Icons.tune_outlined,
-                color: Colors.grey,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Filters()));
+                },
+                child: Icon(
+                  LineIcons.horizontalSliders,
+                  color: Colors.grey,
+                ),
               ),
             ),
           ],
@@ -107,135 +122,141 @@ class _HomepageState extends State<Homepage> {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 20, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text(
-                                "Green",
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff10af90),
-                                    fontFamily: 'Amiri'),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Icon(
-                                  Icons.info_outlined,
-                                  color: Color(0xff10af90),
-                                  size: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Points(
+                                OrdersNumbers: OrdersNumbers,
+                                TodayDate: TodayDate,
+                              )));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  "Green",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff10af90),
+                                      fontFamily: 'Amiri'),
                                 ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                  Container(
-                                      width: 15,
-                                      height: 2,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      margin: const EdgeInsets.all(2)),
-                                ],
-                              )),
-                          const Text(
-                            "10 more orders by August 31 to reach \n Gold",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 10,
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Icon(
+                                    Icons.info_outlined,
+                                    color: Color(0xff10af90),
+                                    size: 20,
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "5.2K",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 30),
-                          ),
-                          Column(
-                            children: const [
-                              Text("Pts", style: TextStyle(fontSize: 10)),
-                              Icon(
-                                Icons.arrow_forward_sharp,
-                                size: 15,
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                    Container(
+                                        width: 15,
+                                        height: 2,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        margin: const EdgeInsets.all(2)),
+                                  ],
+                                )),
+                            Text(
+                              "$OrdersNumbers more orders by ${TodayDate.month}-${TodayDate.day} to reach \n Gold",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "5.2K",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 30),
+                            ),
+                            Column(
+                              children: const [
+                                Text("Pts", style: TextStyle(fontSize: 10)),
+                                Icon(
+                                  Icons.arrow_forward_sharp,
+                                  size: 15,
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                BannerCarousel(
-                  banners: listBanners,
-                  customizedIndicators: const IndicatorModel.animation(
-                      width: 20,
-                      height: 5,
-                      spaceBetween: 2,
-                      widthAnimation: 50),
+                Container(
                   height: 200,
-                  activeColor: Colors.amber,
-                  disableColor: Colors.white,
-                  animation: true,
-                  borderRadius: 10,
-                  initialPage: 2,
-                  width: MediaQuery.of(context).size.width,
-                  indicatorBottom: false,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listImages.length,
+                    itemBuilder: (context, index) {
+                      return Image.network(
+                        listImages[index],
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
                 ),
                 Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -380,12 +401,18 @@ class _HomepageState extends State<Homepage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Center(
+                      Center(
+                          child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ShowHide = !ShowHide;
+                          });
+                        },
                         child: Icon(
                           Icons.expand_more,
                           color: Colors.grey,
                         ),
-                      ),
+                      )),
                       const Padding(
                         padding: EdgeInsets.only(top: 30, bottom: 20),
                         child: Text(
@@ -449,47 +476,7 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                 ),
-              )
-
-        /*CircleBottomNavigationBar(
-          hasElevationShadows: false,
-          circleColor: Color(0xff10af90),
-          activeIconColor: Colors.black.withOpacity(0.5),
-          inactiveIconColor: Color(0xff8e939f),
-          barBackgroundColor: Colors.white,
-          barHeight: 50,
-          iconYAxisSpace: 30,
-          tabs: [
-            TabData(
-              icon: Icons.home_outlined,
-              iconSize: 25,
-                onClick: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Homepage()));
-                }
-            ),
-            TabData(
-              icon: Icons.search_rounded,
-              iconSize: 25,
-              /*onClick: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ));
-                }*/
-            ),
-            TabData(icon: Icons.delivery_dining_outlined, iconSize: 25),
-            TabData(icon: Icons.list_alt_rounded, iconSize: 25),
-            TabData(
-              icon: Icons.account_circle_outlined,
-              iconSize: 25,
-              /*onClick: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>  ));
-                }*/
-            ),
-          ],
-          onTabChangedListener: (int position) {},
-        )*/
-        );
+              ));
   }
 
   Container food(String name, String img) {

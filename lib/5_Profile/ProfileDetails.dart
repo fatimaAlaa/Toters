@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:iconsax/iconsax.dart';
-import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:line_icons/line_icons.dart';
 import 'package:toters/1_HomePage/MainPage/Home.dart';
 import 'package:toters/2_SearchPage/MainPage/Search.dart';
 import 'package:toters/3_DeliveryPage/Delivery.dart';
@@ -58,9 +57,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     const Padding(
                       padding: EdgeInsets.only(right: 8, left: 8),
                       child: Icon(
-                        Icons.card_giftcard,
+                        LineIcons.gift,
                         color: Color(0xff5fcab6),
-                        size: 20,
+                        size: 22,
                       ),
                     ),
                     Column(

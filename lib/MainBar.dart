@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:toters/1_HomePage/MainPage/Home.dart';
 import 'package:toters/2_SearchPage/MainPage/Search.dart';
 import 'package:toters/3_DeliveryPage/Delivery.dart';
@@ -14,12 +15,12 @@ class MainNav extends StatefulWidget {
 class _MainNavState extends State<MainNav> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     Homepage(),
-    SearchPage(),
-    DeliveryPage(),
-    OrderPage(),
-    ProfilePage(),
+    const SearchPage(),
+    const DeliveryPage(),
+    const OrderPage(),
+    const ProfilePage(),
   ];
 
   @override
@@ -28,12 +29,7 @@ class _MainNavState extends State<MainNav> {
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          ),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
@@ -59,31 +55,16 @@ class _MainNavState extends State<MainNav> {
               color: Colors.grey[600],
               activeColor: Colors.green,
               iconSize: 25,
-              //tabBackgroundColor: Colors.black.withOpacity(0.1),
+              //tabBackgroundColor: Colors.grey.withOpacity(0.15),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               mainAxisAlignment:
                   MainAxisAlignment.spaceBetween, // navigation bar padding
-              tabs: [
-                GButton(
-                  icon: Icons.home,
-                  text: "Home",
-                ),
-                GButton(
-                  icon: Icons.search,
-                  text: "Search",
-                ),
-                GButton(
-                  icon: Icons.delivery_dining_outlined,
-                  text: "Delivery",
-                ),
-                GButton(
-                  icon: Icons.list_alt,
-                  text: "Orders",
-                ),
-                GButton(
-                  icon: Icons.account_circle,
-                  text: "Profile",
-                ),
+              tabs: const [
+                GButton(icon: LineIcons.home, text: "Home"),
+                GButton(icon: Icons.search, text: "Search"),
+                GButton(icon: Icons.delivery_dining_outlined, text: "Delivery"),
+                GButton(icon: LineIcons.stream, text: "Orders"),
+                GButton(icon: LineIcons.user, text: "Profile"),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {
