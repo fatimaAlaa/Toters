@@ -34,7 +34,7 @@ Get Them from (https://pub.dev/)
 
 ## Screenshots
 
-<img src="https://i.top4top.io/p_2470ccd5u1.png" width="150" height="300">
+<img src="https://i.top4top.io/p_2470ccd5u1.png" width="150" height="200">
 <img src="https://j.top4top.io/p_2470p6tif2.png" width="150" height="300">
 <img src="https://k.top4top.io/p_2470ct89m3.png" width="150" height="300">
 <img src="https://l.top4top.io/p_2470czq2h4.png" width="150" height="300">
