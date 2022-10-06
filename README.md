@@ -35,13 +35,14 @@ Get Them from (https://pub.dev/)
 ## Screenshots
 
 <p float="left">
-<img src="https://i.top4top.io/p_2470ccd5u1.png" width="150" height="250">
+<img src="https://i.top4top.io/p_2470ccd5u1.png" width="150" height="300">
 <img src="https://k.top4top.io/p_2470ct89m3.png" width="150" height="300">
 <img src="https://l.top4top.io/p_2470czq2h4.png" width="150" height="300">
 <img src="https://a.top4top.io/p_2470lgbci5.png" width="150" height="300">
 <img src="https://b.top4top.io/p_24707srp86.png" width="150" height="300">
 <img src="https://c.top4top.io/p_2470c59p97.png" width="150" height="300">
 <img src="https://e.top4top.io/p_2470fe9i29.png" width="150" height="300">
+<img src="https://f.top4top.io/p_24706tu3w10.png" width="150" height="300">
 <img src="https://f.top4top.io/p_2470pfd601.png" width="150" height="300">
 <img src="https://g.top4top.io/p_24702e4jf2.png" width="150" height="300">
 </p>
