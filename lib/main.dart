@@ -7,9 +7,9 @@ import 'package:toters/4_OrdersPage/order.dart';
 import 'package:toters/MainBar.dart';
 
 void main() {
-  runApp(MaterialApp(home: MainNav(),
-   debugShowCheckedModeBanner: false
-  ));
+  runApp(
+    MaterialApp(home: MainNav(), debugShowCheckedModeBanner: false),
+  );
 }
 
 //MainNav

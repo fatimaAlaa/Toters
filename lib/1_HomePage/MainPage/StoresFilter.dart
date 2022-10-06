@@ -62,6 +62,10 @@ class _FiltersState extends State<Filters> {
                   onTap: () {
                     setState(() {
                       clicked1 = !clicked1;
+                      clicked2 = false;
+                      clicked3 = false;
+                      clicked4 = false;
+
                     });
                   },
                   child: Column(
@@ -95,7 +99,10 @@ class _FiltersState extends State<Filters> {
               GestureDetector(
                   onTap: () {
                     setState(() {
+                      clicked1 = false;
                       clicked2 = !clicked2;
+                      clicked3 = false;
+                      clicked4 = false;
                     });
                   },
                   child: Column(

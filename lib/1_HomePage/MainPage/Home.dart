@@ -19,10 +19,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final List listImages = [
-    // "images/discount.jpg",
-    // "images/backtoSchool.jpg",
-    // "images/orderNow.png",
+  final List<BannerModel> listImages = [
+  BannerModel(imagePath: "images/discount.jpg", id: "1"),
+  BannerModel(imagePath: "images/backtoSchool.jpg", id: "2"),
+  BannerModel(imagePath: "images/orderNow.png", id: "3")
   ];
   bool sizeBool = true;
   bool ShowHide = true;
@@ -249,18 +249,25 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: listImages.length,
-                    itemBuilder: (context, index) {
-                      return Image.network(
-                        listImages[index],
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  ),
+                 // CarouselImages(
+                 //        scaleFactor: 0.5,
+                 //        listImages: listImages,
+                 //        height: 200.0,
+                 //        borderRadius: 20.0,
+                 //        cachedNetworkImage: true,
+                 //        verticalAlignment: Alignment.topCenter,
+                 //      ),
+                BannerCarousel(
+                  banners: listImages,
+                  customizedIndicators: IndicatorModel.animation(width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
+                  height: 300,
+                  activeColor: Colors.amberAccent,
+                  disableColor: Colors.white,
+                  animation: true,
+                  borderRadius: 20,
+                  width: MediaQuery.of(context).size.width,
+                  indicatorBottom: false,
+                  initialPage: 2,
                 ),
                 Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -380,7 +387,7 @@ class _HomepageState extends State<Homepage> {
             ),
           ],
         ),
-        bottomNavigationBar: ShowHide
+        bottomSheet: ShowHide
             ? Container(height: 10)
             : GestureDetector(
                 onTap: () {},
